@@ -1,0 +1,74 @@
+body{
+font-family: "Merriweather", serif;
+}
+
+#container{
+background: url("http://www.pptgrounds.com/wp-content/uploads/2013/12/Blue-Sky-Texture-PPT-Backgrounds.jpg");
+background-repeat: no-repeat;
+background-position: center;
+background-size: cover;
+width: 70%;
+height: 100vh;
+float: left;
+margin: 0;
+}
+
+
+header{
+  text-align: center;
+  font-weight: 700;
+  color: darkblue;
+  font-size: 4em;
+  letter-spacing: 2px;
+  width: 100%;
+  padding: 10px 0;
+}
+
+p{
+  margin-top: 15px;
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.5em;
+}
+
+.controls{
+  width:29.5%;
+  height: 100vh;
+  background-color: lightblue;
+  float: right;
+  border-left: solid darkblue 6px;
+}
+
+img{
+  height: 300px;
+  position: absolute;
+  bottom: 0;
+  left: 200px;
+}
+h3, h2{
+  font-size: 25px;
+  margin: 15px;
+  text-align: center;
+  color:darkblue;
+  font-weight: 400;
+}
+
+h2{
+  font-size: 30px;
+  font-weight: 700;
+}
+.textbox{
+  padding: 15px;
+  line-height: 1.5em;
+  border: solid darkblue 2px;
+  margin: 10px;
+  border-radius: 10px;
+  background-color: white;
+}
+
+#thumbtack{
+  height: 70px;
+  position: absolute;
+  top:0;
+  left: 250px;
+}

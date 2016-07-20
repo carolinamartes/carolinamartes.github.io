@@ -1,0 +1,10 @@
+$(function(){
+console.log("ready...")
+
+
+
+
+
+
+
+})
