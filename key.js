@@ -2,11 +2,10 @@ var English1Left=
 "If you surrendered to the air, you could ride it. -Toni Morrison";
 
 var English1Right=
-"It was a bright cold day in April, and the clocks were striking thirteen. -Orwell";
+"It was a bright cold day in April, and the clocks were striking thirteen. - George Orwell";
 
 var English2Left=
-"We real cool. We Left school. We Lurk late. We Strike straight. We Sing sin. We Thin gin. We Jazz June. We Die soon. -Gwendolyn Brooks" ;
-
+"It is true, we shall be monsters, cut off from all the world; but on that account we shall be more attached to one another. -Mary Shelley"
 var English2Right=
 "It sounds plausible enough tonight, but wait until tomorrow. Wait for the common sense of the morning. -H.G Wells" ;
 
