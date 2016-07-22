@@ -1,101 +1,132 @@
 $(function() {
   console.log("ready...")
 
+  var score = 0;
   var time = 41;
-  var character = 0;
+  var characterL = 0;
+  var characterR = 0;
   var $body = $('body');
   var $timer = $('.timer');
   var $time = $('#time');
   var $score = $('.score');
+  var $scoreNum= $('#score')
   var $textboxleft = $('#left');
-  var $textboxlright = $('#right');
+  var $textboxright = $('#right');
+  var $checkBox = $('#check');
   var balloon = $('#balloon');
-  var thumbtack = $('#thumbtack')
-  var score = 0;
+  var thumbtack = $('#thumbtack');
 
-  var arrE1L = []; //array of English1Left String
-  arrE1L.push(English1Left.split(""));
+  $('.controls').hide();
 
   $('header').on("click", function() {
+    $('.controls').show();
     $('.intro').hide();
     thumbtack.show();
     $timer.show();
     $score.show();
     $textboxleft.text(English1Left);
-    $textboxlright.text(English1Right);
+    $textboxright.text(English1Right);
     balloon.addClass('moveballoonUp');
 
     function countdown() {
       time--
-      $time.text("Time: " + time);
-      checkLose();
-      if (checkLose() === true) {
-        clearInterval(repeat)
+      $time.text("Time: " + time)
+    }
+
+    function checkWinOrLose() {
+      if (Lose() || time < 1) {
+        clearInterval(repeat);
         time = 0;
+      }
+      if (Win()) {
+
+        if (score === English1Left.length) {
+          balloon.addClass('moveballoonLeft');
+        } else if (score === English1Right.length) {
+          balloon.addClass('moveballoonRight');
+        }
+
+        function hideBalloon() {
+          balloon.hide()
+        }
+        setTimeout(hideBalloon, 3000);
+
+        $('.intro p').remove();
+        thumbtack.remove();
+        $('.intro h1').text("Nice floating!");
+        $('.intro').show();
+        clearInterval(repeatCollision);
+        clearInterval(repeat);
+        clearInterval(winOrLose);
       }
     }
 
-    function collision() { //http://jsfiddle.net/nGRwt/7/
-      var x1 = balloon.offset().left;
+    function collision() { //modified from http://jsfiddle.net/nGRwt/7/
+
       var y1 = balloon.offset().top;
       var h1 = balloon.outerHeight(true);
-      var w1 = balloon.outerWidth(true);
-      var b1 = y1 + h1;
-      var r1 = x1 + w1;
-      var x2 = thumbtack.offset().left;
       var y2 = thumbtack.offset().top;
       var h2 = thumbtack.outerHeight(true);
-      var w2 = thumbtack.outerWidth(true);
       var b2 = y2 + h2;
-      var r2 = x2 + w2;
 
-      if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2) return false;
+      if (y1 > b2) return false;
       return true;
+    }
+
+    function gameOver() {
+      $('.intro p').remove();
+      thumbtack.remove();
+      $('.intro h1').text("GAME OVER");
+      $('.intro').show();
+      clearInterval(repeatCollision)
     }
 
     function checkCollision() {
       if (collision()) {
-        balloon.toggle("explode", 1000)
-        balloon.removeClass("moveballoonUp")
-        balloon.hide()
-        alert("Game Over!")
+        balloon.hide("explode", {
+          "pieces": "100"
+        }, 1500);
+        balloon.hide();
+        balloon.removeClass('moveballoonUp');
+        setTimeout(gameOver, 2000);
       }
     };
-    setInterval(checkCollision, 1000)
-
+    var repeatCollision = setInterval(checkCollision, 1000)
     var repeat = setInterval(countdown, 1000)
+    var winOrLose = setInterval(checkWinOrLose, 1000)
   })
 
 
 
   $body.keypress(function(e) {
-    console.log(English1Left.charCodeAt(character))
-    if (e.which == English1Left.charCodeAt(character)) {
-      $('#check').append(English1Left.charAt(character));
-      character++
+
+    if (e.which == English1Left.charCodeAt(characterL)) {
+      $('#check').append(String.fromCharCode(e.which));
+      characterL++
       score++
-      $score.text("Score: " + score)
-    } else {
-      $('#check').effect("shake");
-      console.log("boo!")
+      $scoreNum.text("Score: " + score)
+    }
+      else if (e.which == English1Right.charCodeAt(characterR)) {
+      $checkBox.append(String.fromCharCode(e.which));
+      characterR++
+      score++
+      $scoreNum.text("Score: " + score)
+    }
+      else {
+      $checkBox.effect("shake");
     }
   })
 
-  function checkLose() {
-    if (score === English1Left.length) {
-      balloon.addClass('moveballoonLeft')
-    }
-    if (time === 0 && score !== English1Left.length) {
+  function Lose() {
+    if (time === 0 && (score !== English1Left.length || score !== English1Right.length)) {
       return true
     }
   }
 
-
-
-
-
-
-
-
+  function Win() {
+    if ((score === English1Left.length && characterL>1) || (score === English1Right.length && characterR>1)) {
+      return true
+    }
+  }
 
 })

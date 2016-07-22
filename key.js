@@ -2,7 +2,7 @@ var English1Left=
 "If you surrendered to the air, you could ride it. -Toni Morrison";
 
 var English1Right=
-"It was a bright cold day in April, and the clocks were striking thirteen. - George Orwell";
+"T'was a bright cold day in April, and the clocks were striking thirteen. -George Orwell";
 
 var English2Left=
 "It is true, we shall be monsters, cut off from all the world; but on that account we shall be more attached to one another. -Mary Shelley"

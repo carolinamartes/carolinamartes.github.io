@@ -1,9 +1,10 @@
 body {
   font-family: "Merriweather", serif;
+  overflow: hidden;
 }
 #container {
-  background: url("http://www.pptgrounds.com/wp-content/uploads/2013/12/Blue-Sky-Texture-PPT-Backgrounds.jpg"); <!--free clipart-->
-  background-repeat: no-repeat;
+  background: url("http://www.pptgrounds.com/wp-content/uploads/2013/12/Blue-Sky-Texture-PPT-Backgrounds.jpg");
+  <!--free clipart--> background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   width: 100%;
@@ -31,55 +32,48 @@ header p {
 .controls {
   width: 35.5%;
   height: 100vh;
-  background-color: #c3e0fb ;
+  background-color: #c3e0fb;
   float: right;
   border-left: solid #49aafc 6px;
   position: relative;
 }
-img {
+#balloon {
   height: 250px;
   position: absolute;
   bottom: 0;
   left: 250px;
-  transition:all 1s ease;
+  transition: all 3s;
+  margin-top: 0;
+  padding-top: 0;
 }
-
-
-
 @-webkit-keyframes moveUp {
   0% {
-    top:450px;
-    }
-    100% {
-       top: -250px;
-    }
-}
-
-@-webkit-keyframes moveLeft {
-  0% {
-    left:250px;
+    bottom: 0%;
   }
   100% {
-     left: -250px;
+    bottom: 100%;
   }
 }
-
-/*@-webkit-keyframes moveRight{
-*/
-
-
-
-.moveballoonUp{
-  -webkit-animation-name: moveUp;
-  -webkit-animation-duration:55s;
-  -webkit-animation-timing-function: ease-in;
+@-webkit-keyframes rotate {
+  0% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateZ(4deg);
+  }
+  100% {
+    transform: rotateZ(0deg);
+  }
 }
-.moveballoonLeft{
-  -webkit-animation-name: moveLeft;
-  -webkit-animation-duration:5s;
-  -webkit-animation-timing-function: ease-in;
+.moveballoonUp {
+  -webkit-animation: moveUp 56s ease-in, rotate 4s infinite;
 }
-
+.moveballoonLeft {
+  margin-left: -400px
+}
+.moveballoonRight {
+  margin-left: 700px
+}
 h3, h2 {
   font-size: 20px;
   margin: 15px;
@@ -95,11 +89,10 @@ h2 {
 h3 {
   font-family: "Raleway", sans-serif;
 }
-span{
-    font-weight: 500;
-    font-size: 25px;
+span {
+  font-weight: 600;
+  font-size: 25px;
 }
-
 .textbox {
   padding: 15px;
   line-height: 1.5em;
@@ -116,17 +109,17 @@ span{
   top: 0;
   left: 300px;
   display: none;
+  margin: 0;
+  padding: 0;
 }
 .score {
   margin-top: 20px;
   display: none;
 }
-.timer{
+.timer {
   display: none;
   margin: 35px 0;
 }
-
-
 #wall {
   height: 30px;
   width: 200px;
@@ -139,6 +132,6 @@ span{
   top: 100px;
   display: none;
 }
-#check{
-  color:#cc0000;
+#check {
+  color: #cc0000;
 }
