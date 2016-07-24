@@ -176,6 +176,8 @@ var countdown= setInterval(countdown, 1000);
       if (level===4){
         $('.intro h1').text("You did it!");
         $('.intro').show();
+        balloon.removeClass('moveballoonUpQuicker');
+        balloon.removeClass('moveballoonUp');
       }
       else{
         if (level===2){
