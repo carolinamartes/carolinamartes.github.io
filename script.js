@@ -40,7 +40,9 @@ $(function() {
 
   //game flow
   $('.controls').hide();
-
+  if (highscore==null){
+    highscore=0;
+  }
 
   var countdownInt = setInterval(countdown, 1000);
 
