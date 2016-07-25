@@ -128,10 +128,12 @@ span {
 #thumbtack2{
 left: 500px;
 }
+.highscore {
+  margin-top: 20px;
+  display: none;
+}
 
-
-
-.score {
+.score, .highscore {
   margin-top: 20px;
   display: none;
 }

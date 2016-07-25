@@ -16,6 +16,9 @@ $(function() {
   var $balloon = $('#balloon');
   var $thumbtack = $('#thumbtack');
   var $thumbtack2 = $('#thumbtack2');
+  var $highscore = $('.highscore');
+  var $highscoreNum = $('#highscore');
+  var highscore = highscore || 0;
   var score = 0;
   var totalscore = 0;
   var characterL = 0;
@@ -28,7 +31,12 @@ $(function() {
   var time = 41;
   //functions
 
-
+  function findHighscore() {
+    var highscore = localStorage.getItem("highscore");
+    if (totalscore > highscore) {
+      localStorage.setItem("highscore", totalscore)
+    }
+  }
 
   //game flow
   $('.controls').hide();
@@ -46,15 +54,19 @@ $(function() {
   }
 
   function startGame() {
+    var highscore = localStorage.getItem("highscore");
+    $highscoreNum.text("Highscore: " + highscore);
     textLeft = arrTextL[level - 1];
     textRight = arrTextR[level - 1];
     $('.controls').show();
     $('.intro').hide();
     $thumbtack.show();
     $score.show();
-    time=41;
-    function showTime(){
-    $timer.show();
+    $highscore.show();
+    time = 41;
+
+    function showTime() {
+      $timer.show();
     }
     setTimeout(showTime, 500)
     $level.text("Level " + level)
@@ -121,10 +133,14 @@ $(function() {
       characterR++
       score++
       totalscore++
-      checkWinOrLose()
+      checkWinOrLose();
       $scoreNum.text("Score: " + totalscore);
     } else {
       $checkBox.effect("shake");
+      if (totalscore > 0) {
+        totalscore--
+        $scoreNum.text("Score: " + totalscore);
+      }
     }
   })
 
@@ -144,7 +160,8 @@ $(function() {
   function checkWinOrLose() {
     if (Lose()) {
       time = 0;
-      gameOver()
+      gameOver();
+      findHighscore();
     }
     if (Win()) {
       if (score === textLeft.length) {
@@ -166,6 +183,7 @@ $(function() {
 
 
       function restart() {
+        findHighscore();
         $('.intro').hide();
         $balloon.removeClass('moveballoonUp');
         $balloon.removeClass('moveballoonLeft');
@@ -176,8 +194,8 @@ $(function() {
         characterL = 0;
         characterR = 0;
         level++;
-        time=41;
-        countdownInt= setInterval(countdown, 1000);
+        time = 41;
+        countdownInt = setInterval(countdown, 1000);
         if (level === 4) {
           $('.controls').hide();
           $('.intro h1').text("You did it!");
@@ -194,8 +212,6 @@ $(function() {
       setTimeout(restart, 4000);
     }
   }
-
-
 
 
 
