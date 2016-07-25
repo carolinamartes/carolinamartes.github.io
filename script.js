@@ -33,9 +33,11 @@ $(function() {
 
   function findHighscore() {
     var highscore = localStorage.getItem("highscore");
+    if (totalscore!==0){
     if (totalscore > highscore) {
       localStorage.setItem("highscore", totalscore)
     }
+  }
   }
 
   //game flow
