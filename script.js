@@ -18,7 +18,6 @@ $(function() {
   var $thumbtack2 = $('#thumbtack2');
   var $highscore = $('.highscore');
   var $highscoreNum = $('#highscore');
-  var highscore = highscore || 0;
   var score = 0;
   var totalscore = 0;
   var characterL = 0;
@@ -42,9 +41,6 @@ $(function() {
 
   //game flow
   $('.controls').hide();
-  if (highscore==null){
-    highscore=0;
-  }
 
   var countdownInt = setInterval(countdown, 1000);
 
@@ -58,7 +54,7 @@ $(function() {
   }
 
   function startGame() {
-    var highscore = localStorage.getItem("highscore");
+    var highscore = localStorage.getItem("highscore") || 0;
     $highscoreNum.text("Highscore: " + highscore);
     textLeft = arrTextL[level - 1];
     textRight = arrTextR[level - 1];
