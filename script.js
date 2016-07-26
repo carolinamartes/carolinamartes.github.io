@@ -1,7 +1,7 @@
 $(function() {
   console.log("ready...")
 
-  //variables
+  //jquery variables
 
 
   var $body = $('body');
@@ -18,13 +18,13 @@ $(function() {
   var $thumbtack2 = $('#thumbtack2');
   var $highscore = $('.highscore');
   var $highscoreNum = $('#highscore');
+
+  //variables
   var score = 0;
   var totalscore = 0;
   var characterL = 0;
   var characterR = 0;
   var level = 1;
-  var arrTextR = [English1Right, Spanish1Right, French1Right];
-  var arrTextL = [English1Left, Spanish1Left, French1Left];
   var textLeft = "";
   var textRight = "";
   var time = 41;
@@ -54,7 +54,10 @@ $(function() {
   }
 
   function startGame() {
+    var arrTextR = [English1Right, Spanish1Right, French1Right];
+    var arrTextL = [English1Left, Spanish1Left, French1Left];
     var highscore = localStorage.getItem("highscore") || 0;
+    
     $highscoreNum.text("Highscore: " + highscore);
     textLeft = arrTextL[level - 1];
     textRight = arrTextR[level - 1];
