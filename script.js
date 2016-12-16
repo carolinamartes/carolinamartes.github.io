@@ -13,7 +13,7 @@ $(function() {
     let totalscore = 0;
     let characterL = 0;
     let characterR = 0;
-    let level = 1;
+    let level = 2;
     let textLeft = "";
     let textRight = "";
     let time = 41;
@@ -116,20 +116,24 @@ $(function() {
         score = 0;
         characterL = 0;
         characterR = 0;
-        countdownInt = setInterval(countdown, 1000);
+
         if (level === 4) {
             $('.controls').hide();
             $('.intro h1').text("You did it!");
             $('.intro').show();
+            $balloon.show();
+        } else {
+            if (level === 2) {
+                $thumbtack2.show();
+            }
+            if (level === 3) {
+                $balloon.addClass('moveballoonUpQuicker')
+                time = 31;
+            }
+            countdownInt = setInterval(countdown, 1000);
+            startGame();
         }
-        if (level === 2) {
-            $thumbtack2.show();
-        }
-        if (level === 3) {
-            $balloon.addClass('moveballoonUpQuicker')
-            time = 31;
-        }
-        startGame();
+
 
     }
 
@@ -180,22 +184,24 @@ $(function() {
         }
         if (Win()) {
             if (score === textLeft.length) {
-                $balloon.attr('class', '')
+
                 $balloon.addClass('moveballoonLeft');
+                // $balloon.removeClass('moveballoonUp');
 
             } else if (score === textRight.length) {
-                $balloon.attr('class', '')
+
                 $balloon.addClass('moveballoonRight');
+                // $balloon.removeClass('moveballoonUp');
 
             }
-            setTimeout(hideBalloon, 4000);
+            setTimeout(hideBalloon, 3000);
             $('.intro p').hide();
             $thumbtack.hide();
             $thumbtack2.hide();
             clearInterval(countdownInt);
             $('.intro h1').text("Nice floating!");
             $('.intro').show();
-            setTimeout(restart, 4000);
+            setTimeout(restart, 3000);
         }
     }
 })
