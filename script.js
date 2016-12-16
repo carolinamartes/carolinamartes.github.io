@@ -101,13 +101,9 @@ $(function() {
         textLeft = arrTextL[level - 1];
         textRight = arrTextR[level - 1];
         setDOMView()
-        setTimeout(showTime, 500)
-        if (level === 3) {
-            $balloon.addClass('moveballoonUpQuicker')
-            time = 31;
-        } else {
-            $balloon.addClass('moveballoonUp');
-        }
+        setTimeout(showTime, 500);
+        $balloon.addClass('moveballoonUp');
+        $balloon.show();
     }
 
 
@@ -116,7 +112,6 @@ $(function() {
         level++;
         findHighscore();
         $balloon.attr('class', '')
-        $balloon.show();
         $checkBox.text("");
         score = 0;
         characterL = 0;
@@ -126,12 +121,16 @@ $(function() {
             $('.controls').hide();
             $('.intro h1').text("You did it!");
             $('.intro').show();
-        } else {
-            if (level === 2) {
-                $thumbtack2.show();
-            }
-            startGame();
         }
+        if (level === 2) {
+            $thumbtack2.show();
+        }
+        if (level === 3) {
+            $balloon.addClass('moveballoonUpQuicker')
+            time = 31;
+        }
+        startGame();
+
     }
 
     function hideBalloon() {
@@ -139,7 +138,6 @@ $(function() {
     }
 
     //game flow
-    $('.controls').hide();
 
     let countdownInt = setInterval(countdown, 1000);
 
@@ -182,9 +180,13 @@ $(function() {
         }
         if (Win()) {
             if (score === textLeft.length) {
+                $balloon.attr('class', '')
                 $balloon.addClass('moveballoonLeft');
+
             } else if (score === textRight.length) {
+                $balloon.attr('class', '')
                 $balloon.addClass('moveballoonRight');
+
             }
             setTimeout(hideBalloon, 4000);
             $('.intro p').hide();

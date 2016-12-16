@@ -45,6 +45,7 @@ header p {
     float: right;
     border-left: solid #49aafc 6px;
     position: relative;
+    display: none;
 }
 
 #balloon {
