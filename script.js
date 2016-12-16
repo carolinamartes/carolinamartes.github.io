@@ -13,7 +13,7 @@ $(function() {
     let totalscore = 0;
     let characterL = 0;
     let characterR = 0;
-    let level = 2;
+    let level = 1;
     let textLeft = "";
     let textRight = "";
     let time = 41;
