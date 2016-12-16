@@ -1,221 +1,199 @@
 $(function() {
-  console.log("ready...")
+    console.log("ready...")
 
-  //jquery variables
+    //jquery variables
+    const $scoreNum = $('#score');
+    const $checkBox = $('#check');
+    const $balloon = $('#balloon');
+    const $thumbtack = $('#thumbtack');
+    const $thumbtack2 = $('#thumbtack2');
 
+    //variables
+    let score = 0;
+    let totalscore = 0;
+    let characterL = 0;
+    let characterR = 0;
+    let level = 1;
+    let textLeft = "";
+    let textRight = "";
+    let time = 41;
 
-  var $body = $('body');
-  var $timer = $('.timer');
-  var $time = $('#time');
-  var $score = $('.score');
-  var $scoreNum = $('#score')
-  var $level = $('#level')
-  var $textboxleft = $('#left');
-  var $textboxright = $('#right');
-  var $checkBox = $('#check');
-  var $balloon = $('#balloon');
-  var $thumbtack = $('#thumbtack');
-  var $thumbtack2 = $('#thumbtack2');
-  var $highscore = $('.highscore');
-  var $highscoreNum = $('#highscore');
-
-  //variables
-  var score = 0;
-  var totalscore = 0;
-  var characterL = 0;
-  var characterR = 0;
-  var level = 1;
-  var textLeft = "";
-  var textRight = "";
-  var time = 41;
-  //functions
-
-  function findHighscore() {
-    var highscore = localStorage.getItem("highscore");
-    if (totalscore!==0){
-    if (totalscore > highscore) {
-      localStorage.setItem("highscore", totalscore)
+    //functions
+    function findHighscore() {
+        let highscore = localStorage.getItem("highscore");
+        if (totalscore !== 0 && totalscore > highscore) {
+            localStorage.setItem("highscore", totalscore)
+        }
     }
-  }
-  }
-
-  //game flow
-  $('.controls').hide();
-
-  var countdownInt = setInterval(countdown, 1000);
-
-  $('#clickhere').on("click", function() {
-    setInterval(checkCollision, 1000);
-    startGame()
-  })
-
-  if (level > 1) {
-    startGame();
-  }
-
-  function startGame() {
-    var arrTextR = [English1Right, Spanish1Right, French1Right];
-    var arrTextL = [English1Left, Spanish1Left, French1Left];
-    var highscore = localStorage.getItem("highscore") || 0;
-    
-    $highscoreNum.text("Highscore: " + highscore);
-    textLeft = arrTextL[level - 1];
-    textRight = arrTextR[level - 1];
-    $('.controls').show();
-    $('.intro').hide();
-    $thumbtack.show();
-    $score.show();
-    $highscore.show();
-    time = 41;
 
     function showTime() {
-      $timer.show();
+        $('.timer').show();
     }
-    setTimeout(showTime, 500)
-    $level.text("Level " + level)
-    $textboxleft.text(textLeft);
-    $textboxright.text(textRight);
-    if (level === 3) {
-      $balloon.addClass('moveballoonUpQuicker')
-      time = 31;
-    } else {
-      $balloon.addClass('moveballoonUp');
+
+    function gameOver() {
+        $('.intro p').remove();
+        $thumbtack.hide();
+        $thumbtack2.hide();
+        $('.intro h1').text("GAME OVER");
+        $('.intro').show();
     }
-  }
 
-  function gameOver() {
-    $('.intro p').remove();
-    $thumbtack.hide();
-    $thumbtack2.hide();
-    $('.intro h1').text("GAME OVER");
-    $('.intro').show();
-  }
-
-  function collision() { //modified from http://jsfiddle.net/nGRwt/7/
-
-    var y1 = $balloon.offset().top;
-    var h1 = $balloon.outerHeight(true);
-    var y2 = $thumbtack.offset().top;
-    var h2 = $thumbtack.outerHeight(true);
-    var b2 = y2 + h2;
-
-    if (y1 > b2) return false;
-    return true;
-  }
-
-  function checkCollision() {
-    if (collision()) {
-      $balloon.hide("explode", {
-        "pieces": "100"
-      }, 1500);
-      $balloon.hide();
-      $balloon.removeClass('moveballoonUp');
-      setTimeout(gameOver, 2000);
+    function checkCollision() {
+        if (collision()) {
+            $balloon.hide("explode", {
+                "pieces": "100"
+            }, 1500);
+            $balloon.hide();
+            $balloon.removeClass('moveballoonUp');
+            setTimeout(gameOver, 2000);
+        }
     }
-  }
 
-  function countdown() {
-    time--
-    $time.text("Time: " + time)
-    if (time < 1) {
-      time = 1;
+    function countdown() {
+        checkWinOrLose()
+        $('#time').text("Time: " + time)
+        if (time !== 0) {
+            time--
+        }
     }
-  }
 
-
-  $body.keypress(function checkText(e) {
-    if (e.which == textLeft.charCodeAt(characterL)) {
-      $checkBox.append(String.fromCharCode(e.which));
-      characterL++
-      score++
-      totalscore++
-      checkWinOrLose()
-      $scoreNum.text("Score: " + totalscore);
-    } else if (e.which == textRight.charCodeAt(characterR)) {
-      $checkBox.append(String.fromCharCode(e.which));
-      characterR++
-      score++
-      totalscore++
-      checkWinOrLose();
-      $scoreNum.text("Score: " + totalscore);
-    } else {
-      $checkBox.effect("shake");
-      if (totalscore > 0) {
-        totalscore--
-        $scoreNum.text("Score: " + totalscore);
-      }
+    function collision() { //modified from http://jsfiddle.net/nGRwt/7/
+        let y1 = $balloon.offset().top;
+        let h1 = $balloon.outerHeight(true);
+        let y2 = $thumbtack.offset().top;
+        let h2 = $thumbtack.outerHeight(true);
+        let b2 = y2 + h2;
+        if (y1 > b2) return false;
+        return true;
     }
-  })
 
-
-  function Lose() {
-    if (time === 0 && (score !== textLeft.length || score !== textRight.length)) {
-      return true
+    function Lose() {
+        if (time === 0 && Win() === false) {
+            return true
+        }
     }
-  }
 
-  function Win() {
-    if ((score === textLeft.length && characterL > 1) || (score === textRight.length && characterR > 1)) {
-      return true
+    function Win() {
+        if ($('#check').text().trim() === $('#right').text() || $('#check').text().trim() === $('#left').text()) {
+            return true
+        } else {
+            return false
+        }
     }
-  }
 
-  function checkWinOrLose() {
-    if (Lose()) {
-      time = 0;
-      gameOver();
-      findHighscore();
-    }
-    if (Win()) {
-      if (score === textLeft.length) {
-        $balloon.addClass('moveballoonLeft');
-      } else if (score === textRight.length) {
-        $balloon.addClass('moveballoonRight');
-      }
-
-      function hideBalloon() {
-        $balloon.hide()
-      }
-      setTimeout(hideBalloon, 4000);
-      $('.intro p').hide();
-      $thumbtack.hide();
-      $thumbtack2.hide();
-      clearInterval(countdownInt);
-      $('.intro h1').text("Nice floating!");
-      $('.intro').show();
-
-
-      function restart() {
-        findHighscore();
+    function setDOMView() {
+        let highscore = localStorage.getItem("highscore") || 0;
+        $('#highscore').text("Highscore: " + highscore);
+        $('.controls').show();
         $('.intro').hide();
-        $balloon.removeClass('moveballoonUp');
-        $balloon.removeClass('moveballoonLeft');
-        $balloon.removeClass('moveballoonRight');
+        $thumbtack.show();
+        $('.score').show();
+        $('.highscore').show();
+        $('#level').text("Level " + level)
+        $('#left').text(textLeft);
+        $('#right').text(textRight);
+    }
+
+
+    function startGame() {
+        const arrTextR = [English1Right, Spanish1Right, French1Right];
+        const arrTextL = [English1Left, Spanish1Left, French1Left];
+        textLeft = arrTextL[level - 1];
+        textRight = arrTextR[level - 1];
+        setDOMView()
+        setTimeout(showTime, 500)
+        if (level === 3) {
+            $balloon.addClass('moveballoonUpQuicker')
+            time = 31;
+        } else {
+            $balloon.addClass('moveballoonUp');
+        }
+    }
+
+
+    function restart() {
+        time = 41;
+        level++;
+        findHighscore();
+        $balloon.attr('class', '')
         $balloon.show();
         $checkBox.text("");
         score = 0;
         characterL = 0;
         characterR = 0;
-        level++;
-        time = 41;
         countdownInt = setInterval(countdown, 1000);
         if (level === 4) {
-          $('.controls').hide();
-          $('.intro h1').text("You did it!");
-          $('.intro').show();
-          $balloon.removeClass('moveballoonUpQuicker');
-          $balloon.removeClass('moveballoonUp');
+            $('.controls').hide();
+            $('.intro h1').text("You did it!");
+            $('.intro').show();
         } else {
-          if (level === 2) {
-            $thumbtack2.show();
-          }
-          startGame();
+            if (level === 2) {
+                $thumbtack2.show();
+            }
+            startGame();
         }
-      }
-      setTimeout(restart, 4000);
     }
-  }
+
+    function hideBalloon() {
+        $balloon.hide()
+    }
+
+    //game flow
+    $('.controls').hide();
+
+    let countdownInt = setInterval(countdown, 1000);
+
+    $('#clickhere').on("click", function() {
+        setInterval(checkCollision, 1000);
+        startGame()
+    })
+
+    if (level > 1) {
+        startGame();
+    }
 
 
+    $('body').keypress(function checkText(e) {
+        if (e.which == textLeft.charCodeAt(characterL)) {
+            $checkBox.append(String.fromCharCode(e.which));
+            characterL++
+            score++
+            totalscore++
+            $scoreNum.text("Score: " + totalscore);
+        } else if (e.which == textRight.charCodeAt(characterR)) {
+            $checkBox.append(String.fromCharCode(e.which));
+            characterR++
+            score++
+            totalscore++
+            $scoreNum.text("Score: " + totalscore);
+        } else {
+            $checkBox.effect("shake");
+            if (totalscore > 0) {
+                totalscore--
+                $scoreNum.text("Score: " + totalscore);
+            }
+        }
+    })
 
+    function checkWinOrLose() {
+        if (Lose()) {
+            gameOver();
+            findHighscore();
+        }
+        if (Win()) {
+            if (score === textLeft.length) {
+                $balloon.addClass('moveballoonLeft');
+            } else if (score === textRight.length) {
+                $balloon.addClass('moveballoonRight');
+            }
+            setTimeout(hideBalloon, 4000);
+            $('.intro p').hide();
+            $thumbtack.hide();
+            $thumbtack2.hide();
+            clearInterval(countdownInt);
+            $('.intro h1').text("Nice floating!");
+            $('.intro').show();
+            setTimeout(restart, 4000);
+        }
+    }
 })
